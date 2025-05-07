@@ -4,7 +4,7 @@ using LocalManagement.Shared.Infrastructure.Persistence.EFC.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Local = LocalManagement.Domain.Model.Aggregates.Local;
 
-namespace LocalManagement.Infraestructure.Persistence.EFC.Repositories;
+namespace LocalManagement.Infrastructure.Persistence.EFC.Repositories;
 
 public class LocalRepository(AppDbContext context) : BaseRepository<Local>(context), ILocalRepository
 {

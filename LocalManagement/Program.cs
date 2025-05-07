@@ -4,7 +4,8 @@ using LocalManagement.Application.Internal.QueryServices;
 using LocalManagement.Domain.Model.Commands;
 using LocalManagement.Domain.Repositories;
 using LocalManagement.Domain.Services;
-using LocalManagement.Infraestructure.Persistence.EFC.Repositories;
+using LocalManagement.Infrastructure.IAM;
+using LocalManagement.Infrastructure.Persistence.EFC.Repositories;
 using LocalManagement.Interfaces.ACL;
 using LocalManagement.Interfaces.ACL.Services;
 using LocalManagement.Shared.Domain.Repositories;
@@ -112,6 +113,12 @@ builder.Services.AddScoped<IReportQueryService, ReportQueryService>();
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
 
 builder.Services.AddHttpClient();
+
+builder.Services.AddHttpClient<ILocalsContextFacade, LocalsContextFacade>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["BaseUrl"]);
+});
+
 
 var app = builder.Build();
 

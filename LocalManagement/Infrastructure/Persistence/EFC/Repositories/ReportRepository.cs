@@ -4,7 +4,7 @@ using LocalManagement.Shared.Infrastructure.Persistence.EFC.Configuration;
 using LocalManagement.Shared.Infrastructure.Persistence.EFC.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace LocalManagement.Infraestructure.Persistence.EFC.Repositories;
+namespace LocalManagement.Infrastructure.Persistence.EFC.Repositories;
 
 public class ReportRepository(AppDbContext context) : BaseRepository<Report>(context), IReportRepository
 {

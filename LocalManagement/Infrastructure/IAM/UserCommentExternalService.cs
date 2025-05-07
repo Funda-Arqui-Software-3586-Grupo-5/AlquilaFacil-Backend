@@ -1,4 +1,6 @@
-namespace LocalManagement.Application.Internal.OutboundServices;
+using LocalManagement.Application.Internal.OutboundServices;
+
+namespace LocalManagement.Infrastructure.IAM;
 
 public class UserCommentExternalService(HttpClient httpClient, IConfiguration configuration) : IUserCommentExternalService
 {
