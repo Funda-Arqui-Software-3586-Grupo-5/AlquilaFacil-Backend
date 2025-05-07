@@ -45,18 +45,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.Entity<SubscriptionStatus>().HasKey(s => s.Id);
         builder.Entity<SubscriptionStatus>().Property(s => s.Id).IsRequired().ValueGeneratedOnAdd();
         builder.Entity<SubscriptionStatus>().Property(s => s.Status);
-
-        builder.Entity<Invoice>().HasKey(i => i.Id);
-        builder.Entity<Invoice>().Property(i => i.Id).IsRequired().ValueGeneratedOnAdd();
-        builder.Entity<Invoice>().Property(i => i.SubscriptionId).IsRequired();
-        builder.Entity<Invoice>().Property(i => i.Amount).IsRequired();
-        builder.Entity<Invoice>().Property(i => i.Date).IsRequired();
-
-        builder.Entity<Subscription>()
-            .HasOne<Plan>().WithMany().HasForeignKey(s => s.PlanId);
         
-
-        builder.Entity<Subscription>().HasOne<Invoice>().WithOne().HasForeignKey<Invoice>(i => i.SubscriptionId);
 
         //Local Context
 

@@ -161,9 +161,6 @@ builder.Services.AddScoped<IPlanRepository, PlanRepository>();
 builder.Services.AddScoped<IPlanCommandService, PlanCommandService>();
 builder.Services.AddScoped<IPlanQueryService, PlanQueryService>();
 
-builder.Services.AddScoped<IInvoiceQueryService, InvoiceQueryService>();
-builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
-builder.Services.AddScoped<IInvoiceCommandService, InvoiceCommandService>();
 
         
 
@@ -241,7 +238,7 @@ using (var scope = app.Services.CreateScope())
     context.Database.EnsureCreated();
 
     var planCommandService = services.GetRequiredService<IPlanCommandService>();
-    await planCommandService.Handle(new CreatePlanCommand("Plan Premium", "El plan premium te permitirá acceder a funcionalidades adicionales en la aplicación", 20));
+    await planCommandService.Handle(new CreatePlanCommand("Plan Premium", "El plan premium te permitira acceder a funcionalidades adicionales en la aplicacion", 20));
     
     var subscriptionStatusCommandService = services.GetRequiredService<ISubscriptionStatusCommandService>();
     await subscriptionStatusCommandService.Handle(new SeedSubscriptionStatusCommand());
