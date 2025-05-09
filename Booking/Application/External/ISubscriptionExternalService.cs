@@ -1,8 +1,8 @@
 //using AlquilaFacilPlatform.Subscriptions.Domain.Model.Aggregates;
 
-namespace Booking.Application.OutBoundService;
+namespace Booking.Application.External;
 
-public interface ISubscriptionInfoExternalService
+public interface ISubscriptionExternalService
 {
     //Task<IEnumerable<Subscription>> GetSubscriptionByUsersId(List<int> usersId);
 }

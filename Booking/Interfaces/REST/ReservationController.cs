@@ -1,5 +1,5 @@
 using System.Net.Mime;
-using Booking.Application.OutBoundService;
+using Booking.Application.External;
 using Booking.Domain.Model.Queries;
 using Booking.Domain.Services;
 using Booking.Interfaces.REST.Resources;
@@ -11,7 +11,7 @@ namespace Booking.Interfaces.REST;
 [ApiController]
 [Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
-public class ReservationController(IReservationCommandService reservationCommandService, IReservationQueryService reservationQueryService, ISubscriptionInfoExternalService subscriptionInfoExternalService) : ControllerBase
+public class ReservationController(IReservationCommandService reservationCommandService, IReservationQueryService reservationQueryService, ISubscriptionExternalService subscriptionExternalService) : ControllerBase
 {
 
     [HttpPost]

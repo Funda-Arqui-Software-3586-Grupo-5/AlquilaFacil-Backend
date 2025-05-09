@@ -1,12 +1,13 @@
-using Booking.Application.OutBoundService;
+using Booking.Application.External;
+using Booking.Application.External.OutboundServices;
 using Booking.Domain.Model.Aggregates;
 using Booking.Domain.Model.Queries;
 using Booking.Domain.Repositories;
 using Booking.Domain.Services;
 
-namespace Booking.Application.QueryServices;
+namespace Booking.Application.Internal.QueryServices;
 
-public class ReservationQueryService(IReservationRepository reservationRepository, IReservationLocalExternalService reservationLocalExternalService) : IReservationQueryService
+public class ReservationQueryService(IReservationRepository reservationRepository, ILocalExternalService localExternalService) : IReservationQueryService
 {
     public async Task<IEnumerable<Reservation>> GetReservationsByUserIdAsync(GetReservationsByUserId query)
     {

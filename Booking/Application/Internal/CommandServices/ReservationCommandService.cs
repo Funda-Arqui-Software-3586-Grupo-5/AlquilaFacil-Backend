@@ -1,25 +1,26 @@
-using Booking.Application.OutBoundService;
+using Booking.Application.External;
+using Booking.Application.External.OutboundServices;
 using Booking.Domain.Model.Aggregates;
 using Booking.Domain.Model.Commands;
 using Booking.Domain.Repositories;
 using Booking.Domain.Services;
 using Booking.Shared.Domain.Repositories;
 
-namespace Booking.Application.CommandServices;
+namespace Booking.Application.Internal.CommandServices;
 
 public class ReservationCommandService(
  IUserReservationExternalService userReservationExternalService,
- IReservationLocalExternalService reservationLocalExternalService, IReservationRepository reservationRepository,IUnitOfWork unitOfWork) : IReservationCommandService
+ ILocalExternalService localExternalService, IReservationRepository reservationRepository,IUnitOfWork unitOfWork) : IReservationCommandService
 {
  public async Task<Reservation> Handle(CreateReservationCommand reservation)
  {
-     var userExists = userReservationExternalService.UserExists(reservation.UserId);
+     var userExists = await userReservationExternalService.UserExists(reservation.UserId);
      if (!userExists)
      {
          throw new Exception("User does not exist");
      }
 
-     var localExists = await reservationLocalExternalService.LocalReservationExists(reservation.LocalId);
+     var localExists = await localExternalService.LocalReservationExists(reservation.LocalId);
      if (!localExists)
      {
          throw new Exception("Local does not exist");
@@ -37,7 +38,7 @@ public class ReservationCommandService(
          throw new Exception("End date must be greater than current date");
      }
 
-     if (await reservationLocalExternalService.IsLocalOwner(reservation.UserId, reservation.LocalId))
+     if (await localExternalService.IsLocalOwner(reservation.UserId, reservation.LocalId))
      {
             throw new BadHttpRequestException("User is the owner of the local, he cannot make a reservation");
      }
