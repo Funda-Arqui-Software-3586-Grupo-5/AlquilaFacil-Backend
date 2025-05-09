@@ -1,6 +1,6 @@
 using AlquilaFacilPlatform.Booking.Domain.Model.Aggregates;
 using AlquilaFacilPlatform.Booking.Domain.Model.Queries;
-using AlquilaFacilPlatform.Subscriptions.Domain.Model.Aggregates;
+//using AlquilaFacilPlatform.Subscriptions.Domain.Model.Aggregates;
 
 namespace AlquilaFacilPlatform.Booking.Domain.Services;
 

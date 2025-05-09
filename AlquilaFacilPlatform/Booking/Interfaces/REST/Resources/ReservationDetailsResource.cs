@@ -1,4 +1,4 @@
-using AlquilaFacilPlatform.Subscriptions.Interfaces.REST.Resources;
+//using AlquilaFacilPlatform.Subscriptions.Interfaces.REST.Resources;
 
 namespace AlquilaFacilPlatform.Booking.Interfaces.REST.Resources;
 

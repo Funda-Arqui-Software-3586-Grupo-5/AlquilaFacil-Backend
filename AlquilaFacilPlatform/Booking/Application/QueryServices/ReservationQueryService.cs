@@ -18,13 +18,9 @@ public class ReservationQueryService(IReservationRepository reservationRepositor
         return await reservationRepository.GetReservationByStartDateAsync(query.StartDate);
     }
 
-    public async Task<IEnumerable<Reservation>> GetReservationByEndDateAsync(GetReservationByEndDate query)
-    {
-        return await reservationRepository.GetReservationByEndDateAsync(query.EndDate);
-    }
-
     public async Task<IEnumerable<Reservation>> GetReservationsByOwnerIdAsync(GetReservationsByOwnerIdQuery query)
     {
+        /*
         var locals = await reservationLocalExternalService.GetLocalsByUserId(query.OwnerId);
         if (locals == null)
         {
@@ -32,5 +28,13 @@ public class ReservationQueryService(IReservationRepository reservationRepositor
         }
         var localIds = locals.Select(local => local.Id);
         return await reservationRepository.GetReservationsByLocalIdAsync(localIds.ToList());
+        */
+
+        return new List<Reservation>();
+    }
+
+    public async Task<IEnumerable<Reservation>> GetReservationByEndDateAsync(GetReservationByEndDate query)
+    {
+        return await reservationRepository.GetReservationByEndDateAsync(query.EndDate);
     }
 }

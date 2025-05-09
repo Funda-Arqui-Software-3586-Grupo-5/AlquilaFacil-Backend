@@ -1,8 +1,9 @@
-using AlquilaFacilPlatform.Locals.Domain.Model.Aggregates;
-using AlquilaFacilPlatform.Locals.Interfaces.ACL;
+//using AlquilaFacilPlatform.Locals.Domain.Model.Aggregates;
+//using AlquilaFacilPlatform.Locals.Interfaces.ACL;
 
 namespace AlquilaFacilPlatform.Booking.Application.OutBoundService;
 
+/*
 public class ReservationLocalExternalService(ILocalsContextFacade localsContextFacade) : IReservationLocalExternalService
 {
     public Task<bool> LocalReservationExists(int reservationId)
@@ -20,3 +21,4 @@ public class ReservationLocalExternalService(ILocalsContextFacade localsContextF
         return await localsContextFacade.IsLocalOwner(userId, localId);
     }
 }
+*/

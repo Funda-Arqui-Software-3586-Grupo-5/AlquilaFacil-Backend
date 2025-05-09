@@ -25,13 +25,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Booking\Properties\" />
       <Folder Include="IAM\Infrastructure\Pipeline\" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Content Include="..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
     </ItemGroup>
 
 </Project>
