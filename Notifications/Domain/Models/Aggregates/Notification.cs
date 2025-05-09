@@ -1,0 +1,28 @@
+using Notifications.Domain.Models.Commands;
+
+namespace Notifications.Domain.Models.Aggregates;
+
+public partial class Notification
+{
+    public int Id { get; }
+    public string Title { get; }
+    public string Description { get; }
+    public int UserId { get; }
+}
+
+public partial class Notification
+{
+    public Notification()
+    {
+        Title = string.Empty;
+        Description = string.Empty;
+        UserId = 0;
+    }
+
+    public Notification(CreateNotificationCommand command)
+    {
+        Title = command.Title;
+        Description = command.Description;
+        UserId = command.UserId;
+    }
+}
