@@ -119,6 +119,11 @@ builder.Services.AddHttpClient<IIamContextFacade, IamContextFacade>(client =>
     client.BaseAddress = new Uri(baseUrl!);
 });
 
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(8082); // ← importante
+});
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
