@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace AlquilaFacilPlatform.Shared.Interfaces.ASP.Configuration.Extensions;
+namespace Subscriptions.Shared.Interfaces.ASP.Configuration.Extensions;
 
 public static class ModelStateExtensions
 {
