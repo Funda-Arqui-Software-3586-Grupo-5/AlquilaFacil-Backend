@@ -1,0 +1,21 @@
+# This is a generated file. Not intended for manual editing.
+services:
+  local-api:
+    build:
+      context: "/Users/lordmathi2741/Documents/Cursos/Fundamentos-Arqui-Software/AlquilaFacil-Backend"
+      dockerfile: "LocalManagement/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/LocalManagement.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "localmanagement:dev"
+    ports: []
+    volumes:
+    - "/Users/lordmathi2741/Documents/Cursos/Fundamentos-Arqui-Software/AlquilaFacil-Backend/LocalManagement:/app:rw"
+    - "/Users/lordmathi2741/Documents/Cursos/Fundamentos-Arqui-Software/AlquilaFacil-Backend:/src:rw"
+    - "/Users/lordmathi2741/.nuget/packages:/home/app/.nuget/packages"
+    working_dir: "/app"
