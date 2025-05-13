@@ -1,12 +1,20 @@
 using IAM.Application.Internal.CommandServices;
+using IAM.Application.Internal.OutboundServices;
 //using IAM.Application.External;
 //using IAM.Application.External.OutboundServices;
 using IAM.Application.Internal.QueryServices;
+using IAM.Domain.Model.Commands;
+using IAM.Domain.Respositories;
 //using IAM.Domain.Repositories;
 using IAM.Domain.Services;
+using IAM.Infrastructure.Hashing.BCrypt.Services;
+using IAM.Infrastructure.Persistence.EFC.Respositories;
+using IAM.Infrastructure.Tokens.JWT.Configuration;
+using IAM.Infrastructure.Tokens.JWT.Services;
 //using IAM.Infrastructure.Persistence.EFC.Repositories;
 using IAM.Interfaces;
 using IAM.Interfaces.ACL;
+using IAM.Interfaces.ACL.Service;
 //using IAM.Interfaces.ACL.Services;
 using IAM.Shared.Domain.Repositories;
 using IAM.Shared.Infrastructure.Persistence.EFC.Configuration;
@@ -85,15 +93,16 @@ builder.Services.AddCors(options =>
 
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+builder.Services.AddScoped<ISeedUserRoleCommandService, SeedUserRoleCommandService>();
 
-//builder.Services.AddScoped<ISubscriptionInfoExternalService,SubscriptionInfoExternalService>();
-
-
-// Shared Bounded Context Injection Configuration
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-
-// Booking Bounded Context Injection Configuration
+builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("TokenSettings"));
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserCommandService, UserCommandService>();
+builder.Services.AddScoped<IUserQueryService, UserQueryService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IHashingService, HashingService>();
+builder.Services.AddScoped<IIamContextFacade, IamContextFacade>();
 
 builder.Services.AddHttpClient();
 
@@ -110,6 +119,9 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<AppDbContext>();
     context.Database.EnsureCreated();
+    
+    var userRoleCommandService = services.GetRequiredService<ISeedUserRoleCommandService>();
+    await userRoleCommandService.Handle(new SeedUserRolesCommand());
 }
 
 
