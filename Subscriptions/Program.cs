@@ -1,19 +1,19 @@
 using Subscriptions.Application.Internal.CommandServices;
-using Subscriptions.Application.External;
-using Subscriptions.Application.External.OutboundServices;
 using Subscriptions.Application.Internal.QueryServices;
 using Subscriptions.Domain.Repositories;
 using Subscriptions.Domain.Services;
 using Subscriptions.Infrastructure.Persistence.EFC.Repositories;
 using Subscriptions.Interfaces;
 using Subscriptions.Interfaces.ACL;
-using Subscriptions.Interfaces.ACL.Services;
 using Subscriptions.Shared.Domain.Repositories;
 using Subscriptions.Shared.Infrastructure.Persistence.EFC.Configuration;
 using Subscriptions.Shared.Infrastructure.Persistence.EFC.Repositories;
 using Subscriptions.Shared.Interfaces.ASP.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Subscriptions.Application.Internal.OutBoundServices;
+using Subscriptions.Domain.Model.Commands;
+using Subscriptions.Interfaces.ACL.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -94,7 +94,15 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
 // Subscriptions Bounded Context Injection Configuration
+builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
+builder.Services.AddScoped<ISubscriptionCommandService, SubscriptionCommandService>();
+builder.Services.AddScoped<ISubscriptionQueryServices, SubscriptionQueryService>();
+builder.Services.AddScoped<ISubscriptionContextFacade, SubscriptionContextFacade>();
+builder.Services.AddScoped<IExternalUserWithSubscriptionService, ExternalUserWithSubscriptionService>();
 
+builder.Services.AddScoped<IPlanRepository, PlanRepository>();
+builder.Services.AddScoped<IPlanCommandService, PlanCommandService>();
+builder.Services.AddScoped<IPlanQueryService, PlanQueryService>();
 
 
 builder.Services.AddHttpClient();
@@ -112,6 +120,13 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<AppDbContext>();
     context.Database.EnsureCreated();
+    
+    
+    var planCommandService = services.GetRequiredService<IPlanCommandService>();
+    await planCommandService.Handle(new CreatePlanCommand("Plan Premium", "El plan premium te permitira acceder a funcionalidades adicionales en la aplicacion", 20));
+    
+    var subscriptionStatusCommandService = services.GetRequiredService<ISubscriptionStatusCommandService>();
+    await subscriptionStatusCommandService.Handle(new SeedSubscriptionStatusCommand());
 }
 
 

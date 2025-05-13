@@ -15,8 +15,7 @@ public class SubscriptionCommandService(ISubscriptionRepository subscriptionRepo
 {
     public async Task<Subscription?> Handle(CreateSubscriptionCommand command)
     {
-        //var subscription = new Subscription(command);
-        var subscription = new Subscription();
+        var subscription = new Subscription(command);
 
         var plan = await planRepository.FindByIdAsync(command.PlanId);
         if (plan == null)
@@ -42,7 +41,7 @@ public class SubscriptionCommandService(ISubscriptionRepository subscriptionRepo
         {
             throw new Exception("Subscription or Status not found");
         }
-        //subscription.SubscriptionStatusId = subscriptionStatus.Id;
+        subscription.SubscriptionStatusId = subscriptionStatus.Id;
         await unitOfWork.CompleteAsync();
         return subscription;
     }

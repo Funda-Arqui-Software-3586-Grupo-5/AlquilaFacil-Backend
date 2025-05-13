@@ -1,4 +1,4 @@
-/*using IAM.Interfaces.ACL;
+using Subscriptions.Interfaces.ACL;
 
 namespace Subscriptions.Application.Internal.OutBoundServices;
 
@@ -8,4 +8,4 @@ public class ExternalUserWithSubscriptionService(IIamContextFacade iamContextFac
     {
         return iamContextFacade.UsersExists(id);
     }
-} */
+} 

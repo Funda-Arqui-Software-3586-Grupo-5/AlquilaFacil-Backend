@@ -4,7 +4,7 @@ using Subscriptions.Domain.Model.Entities;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using Microsoft.EntityFrameworkCore;
 
-namespace AlquilaFacilPlatform.Shared.Infrastructure.Persistence.EFC.Configuration;
+namespace Subscriptions.Shared.Infrastructure.Persistence.EFC.Configuration;
 
 public class AppDbContext(DbContextOptions options) : DbContext(options)
 {
@@ -20,6 +20,14 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         base.OnModelCreating(builder);
         
         // Place here your entities configuration
+
+        builder.Entity<Plan>().HasKey(p => p.Id);
+        builder.Entity<Plan>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<Plan>().Property(p => p.Name).IsRequired();
+        builder.Entity<Plan>().Property(p => p.Service).IsRequired();
+        builder.Entity<Plan>().Property(p => p.Price).IsRequired() ;
+
+        builder.Entity<Plan>().HasMany<Subscription>().WithOne().HasForeignKey(s => s.PlanId);
                 
         builder.Entity<Subscription>().HasKey(s => s.Id);
         builder.Entity<Subscription>().Property(s => s.Id).IsRequired().ValueGeneratedOnAdd();

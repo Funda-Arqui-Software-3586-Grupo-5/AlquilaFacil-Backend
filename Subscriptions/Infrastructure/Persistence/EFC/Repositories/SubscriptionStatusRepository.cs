@@ -1,4 +1,3 @@
-using AlquilaFacilPlatform.Shared.Infrastructure.Persistence.EFC.Configuration;
 using Subscriptions.Shared.Infrastructure.Persistence.EFC.Configuration;
 using Subscriptions.Shared.Infrastructure.Persistence.EFC.Repositories;
 using Subscriptions.Domain.Model.Entities;

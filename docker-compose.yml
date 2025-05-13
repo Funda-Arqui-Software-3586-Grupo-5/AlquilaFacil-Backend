@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  subscriptions-api:
+    build:
+      context: .
+      dockerfile: Subscriptions/Dockerfile
+    container_name: subscriptions-api
+    depends_on:
+      - subscriptions-db
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    ports:
+      - "8100:8100"
+    networks:
+      - subscriptions-network
+
+  subscriptions-db:
+    image: mysql:8.0
+    container_name: subscriptions-db
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345678
+      MYSQL_DATABASE: subscriptions
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - subscriptions-network
+
+volumes:
+  db_data:
+
+networks:
+  subscriptions-network:
