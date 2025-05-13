@@ -1,4 +1,4 @@
-namespace LocalManagement.Application.Internal.OutboundServices;
+namespace LocalManagement.Application.External.OutboundServices;
 
 public interface IUserCommentExternalService
 {

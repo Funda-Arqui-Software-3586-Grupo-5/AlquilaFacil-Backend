@@ -1,4 +1,4 @@
-using LocalManagement.Application.Internal.OutboundServices;
+using LocalManagement.Application.External.OutboundServices;
 using LocalManagement.Domain.Model.Aggregates;
 using LocalManagement.Domain.Model.Commands;
 using LocalManagement.Domain.Repositories;

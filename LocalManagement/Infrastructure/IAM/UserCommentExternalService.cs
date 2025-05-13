@@ -1,4 +1,4 @@
-using LocalManagement.Application.Internal.OutboundServices;
+using LocalManagement.Application.External.OutboundServices;
 
 namespace LocalManagement.Infrastructure.IAM;
 
