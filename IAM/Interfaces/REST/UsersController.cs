@@ -5,6 +5,7 @@ using IAM.Domain.Model.Commands;
 using IAM.Domain.Model.Queries;
 using IAM.Domain.Services;
 using IAM.Infrastructure.Pipeline.Middleware.Attributes;
+using IAM.Interfaces.ACL;
 using IAM.Interfaces.REST.Resources;
 using IAM.Interfaces.REST.Transform;
 using Microsoft.AspNetCore.Mvc;
@@ -20,11 +21,11 @@ namespace IAM.Interfaces.REST;
  * </remarks>
  */
 
-[Authorize]
 [ApiController]
 [Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
 public class UsersController(
+    IIamContextFacade iamContextFacade,
     IUserQueryService userQueryService, IUserCommandService userCommandService
     ) : ControllerBase
 {
@@ -60,6 +61,15 @@ public class UsersController(
         var users = await userQueryService.Handle(getAllUsersQuery);
         var userResources = users.Select(UserResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(userResources);
+    }
+    
+    [HttpGet("{profileId:int}/exists")]
+    [AllowAnonymous]
+    public IActionResult IsUserExists([FromRoute] int profileId)
+    {
+
+        var isUsersExists = iamContextFacade.UsersExists(profileId);
+        return Ok(isUsersExists);
     }
     
     [HttpGet("get-username/{userId:int}")]
