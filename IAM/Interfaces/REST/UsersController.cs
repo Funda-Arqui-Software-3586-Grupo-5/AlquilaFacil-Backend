@@ -41,10 +41,14 @@ public class UsersController(
     [HttpGet("{userId:int}")]
     public async Task<IActionResult> GetUserById(int userId)
     {
-        var getUserByIdQuery = new GetUserByIdQuery(userId);
-        var user = await userQueryService.Handle(getUserByIdQuery);
-        var userResource = UserResourceFromEntityAssembler.ToResourceFromEntity(user!);
-        return Ok(userResource);
+        try {
+            var getUserByIdQuery = new GetUserByIdQuery(userId);
+            var user = await userQueryService.Handle(getUserByIdQuery);
+            var userResource = UserResourceFromEntityAssembler.ToResourceFromEntity(user!);
+            return Ok(userResource);
+        }catch (Exception e) {
+            return BadRequest(new { message = e.Message });
+        }
     }
     
     
@@ -57,36 +61,52 @@ public class UsersController(
     [HttpGet]
     public async Task<IActionResult> GetAllUsers()
     {
-        var getAllUsersQuery = new GetAllUsersQuery();
-        var users = await userQueryService.Handle(getAllUsersQuery);
-        var userResources = users.Select(UserResourceFromEntityAssembler.ToResourceFromEntity);
-        return Ok(userResources);
+        try {
+            var getAllUsersQuery = new GetAllUsersQuery();
+            var users = await userQueryService.Handle(getAllUsersQuery);
+            var userResources = users.Select(UserResourceFromEntityAssembler.ToResourceFromEntity);
+            return Ok(userResources);
+        }catch(Exception e) {
+            return BadRequest(new { message = e.Message });
+        }
     }
     
     [HttpGet("{profileId:int}/exists")]
     [AllowAnonymous]
     public IActionResult IsUserExists([FromRoute] int profileId)
     {
+        try {
+            var isUsersExists = iamContextFacade.UsersExists(profileId);
+            return Ok(isUsersExists);
+        }catch(Exception e) {
+            return BadRequest(new { message = e.Message });
+        }
 
-        var isUsersExists = iamContextFacade.UsersExists(profileId);
-        return Ok(isUsersExists);
     }
     
     [HttpGet("get-username/{userId:int}")]
     public async Task<IActionResult> GetUsernameById(int userId)
     {
-        var getUsernameByIdQuery = new GetUsernameByIdQuery(userId);
-        var username = await userQueryService.Handle(getUsernameByIdQuery);
-        return Ok(username);
+        try {
+            var getUsernameByIdQuery = new GetUsernameByIdQuery(userId);
+            var username = await userQueryService.Handle(getUsernameByIdQuery);
+            return Ok(username);
+        }catch(Exception e) {
+            return BadRequest(new { message = e.Message });
+        }
     }
     
     [HttpPut("{userId:int}")]
     public async Task<IActionResult> UpdateUser(int userId, [FromBody] UpdateUsernameResource updateUsernameResource)
     {
-        var updateUserCommand =
-            UpdateUsernameCommandFromResourceAssembler.ToUpdateUsernameCommand(userId, updateUsernameResource);
-        var user = await userCommandService.Handle(updateUserCommand);
-        var userResource = UserResourceFromEntityAssembler.ToResourceFromEntity(user!);
-        return Ok(userResource);
+        try {
+            var updateUserCommand =
+                UpdateUsernameCommandFromResourceAssembler.ToUpdateUsernameCommand(userId, updateUsernameResource);
+            var user = await userCommandService.Handle(updateUserCommand);
+            var userResource = UserResourceFromEntityAssembler.ToResourceFromEntity(user!);
+            return Ok(userResource);
+        }catch(Exception e) {
+            return BadRequest(new { message = e.Message });
+        }
     }
 }

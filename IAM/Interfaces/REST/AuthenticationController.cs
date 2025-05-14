@@ -25,12 +25,16 @@ public class AuthenticationController(IUserCommandService userCommandService) : 
     [AllowAnonymous]
     public async Task<IActionResult> SignIn([FromBody] SignInResource signInResource)
     {
-        var signInCommand = SignInCommandFromResourceAssembler.ToCommandFromResource(signInResource);
-        var authenticatedUser = await userCommandService.Handle(signInCommand);
-        var resource =
-            AuthenticatedUserResourceFromEntityAssembler.ToResourceFromEntity(authenticatedUser.user,
-                authenticatedUser.token);
-        return Ok(resource);
+        try {
+            var signInCommand = SignInCommandFromResourceAssembler.ToCommandFromResource(signInResource);
+            var authenticatedUser = await userCommandService.Handle(signInCommand);
+            var resource =
+                AuthenticatedUserResourceFromEntityAssembler.ToResourceFromEntity(authenticatedUser.user,
+                    authenticatedUser.token);
+            return Ok(resource);
+        }catch(Exception e) {
+            return BadRequest(new { message = e.Message });
+        }
     }
 
     /**
@@ -44,8 +48,12 @@ public class AuthenticationController(IUserCommandService userCommandService) : 
     [AllowAnonymous]
     public async Task<IActionResult> SignUp([FromBody] SignUpResource signUpResource)
     {
-        var signUpCommand = SignUpCommandFromResourceAssembler.ToCommandFromResource(signUpResource);
-        await userCommandService.Handle(signUpCommand);
-        return Ok(new { message = "User created successfully"});
+        try {
+            var signUpCommand = SignUpCommandFromResourceAssembler.ToCommandFromResource(signUpResource);
+            await userCommandService.Handle(signUpCommand);
+            return Ok(new { message = "User created successfully"});
+        }catch(Exception e) {
+            return BadRequest(new { message = e.Message });
+        }
     }
 }
