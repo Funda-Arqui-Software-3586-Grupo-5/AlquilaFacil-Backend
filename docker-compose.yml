@@ -1,23 +1,28 @@
 services:
-  subscription-api:
+  subscriptions-api:
     build:
       context: .
       dockerfile: Subscriptions/Dockerfile
-    container_name: subscription-api
+    container_name: subscriptions-api
     depends_on:
       - subscriptions-db
     ports:
       - "8016:8016"
-    restart:
-      always
-
+    restart: 
+        always
+  
   subscriptions-db:
     image: mysql:8.0
     container_name: subscriptions-db
     environment:
-      MYSQL_ROOT_PASSWORD: 12345678
-      MYSQL_DATABASE: subscriptions
+        MYSQL_ROOT_PASSWORD: 12345678
+        MYSQL_DATABASE: subscriptions
+    restart:
+        always
     ports:
       - "3311:3306"
-    restart:
-      always
+      
+    
+  
+    
+    
