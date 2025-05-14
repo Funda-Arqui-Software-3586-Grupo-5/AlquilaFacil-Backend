@@ -21,4 +21,3 @@ services:
       - "3311:3306"
     restart:
       always
-
