@@ -1,6 +1,3 @@
-
-using AlquilaFacilPlatform.Profiles.Application.Internal.OutboundServices;
-using AlquilaFacilPlatform.Profiles.Application.Internal.QueryServices;
 using AlquilaFacilPlatform.Profiles.Domain.Repositories;
 using AlquilaFacilPlatform.Profiles.Domain.Services;
 using AlquilaFacilPlatform.Profiles.Interfaces.ACL;
@@ -9,8 +6,10 @@ using AlquilaFacilPlatform.Shared.Domain.Repositories;
 using AlquilaFacilPlatform.Shared.Interfaces.ASP.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Profiles.Application.External.OutboundServices;
 using Profiles.Application.Internal.CommandServices;
-using Profiles.Application.Internal.OutboundServices;
+using Profiles.Application.Internal.QueryServices;
+using Profiles.Infrastructure.IAM;
 using Profiles.Infrastructure.Persistence.EFC.Repositories;
 using Profiles.Shared.Infrastructure.Persistence.EFC.Configuration;
 using Profiles.Shared.Infrastructure.Persistence.EFC.Repositories;
@@ -90,17 +89,15 @@ builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
 builder.Services.AddScoped<IProfileCommandService, ProfileCommandService>();
 builder.Services.AddScoped<IProfileQueryService, ProfileQueryService>();
 builder.Services.AddScoped<IProfilesContextFacade, ProfilesContextFacade>();
-//TODO fix reference to User Aggregate in IAM BC
-/*builder.Services.AddScoped<IUserExternalService, UserExternalService>();
+
+builder.Services.AddScoped<IUserExternalService, UserExternalService>();
 builder.Services.AddScoped<ISubscriptionExternalService, SubscriptionExternalService>();
 
-
-builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
-builder.Services.AddScoped<ISeedUserRoleCommandService, SeedUserRoleCommandService>();
-
-builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
-builder.Services.AddScoped<INotificationCommandService, NotificationCommandService>();
-builder.Services.AddScoped<INotificationQueryService, NotificationQueryService>();*/
+builder.Services.AddHttpClient();
+builder.WebHost.UseKestrel(options =>
+{
+    options.ListenAnyIP(8015);
+});
 
 var app = builder.Build();
 
@@ -109,10 +106,6 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<AppDbContext>();
     context.Database.EnsureCreated();
-    
-    //TODO: Uncomment when IAM BC is ready
-    /*var userRoleCommandService = services.GetRequiredService<ISeedUserRoleCommandService>();
-    await userRoleCommandService.Handle(new SeedUserRolesCommand());*/
 }
 
 

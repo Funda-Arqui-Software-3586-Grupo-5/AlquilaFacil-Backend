@@ -1,10 +1,10 @@
-using AlquilaFacilPlatform.Profiles.Application.Internal.OutboundServices;
 using AlquilaFacilPlatform.Profiles.Domain.Model.Queries;
 using AlquilaFacilPlatform.Profiles.Domain.Repositories;
 using AlquilaFacilPlatform.Profiles.Domain.Services;
+using Profiles.Application.External.OutboundServices;
 using Profiles.Domain.Model.Aggregates;
 
-namespace AlquilaFacilPlatform.Profiles.Application.Internal.QueryServices;
+namespace Profiles.Application.Internal.QueryServices;
 
 public class ProfileQueryService(IProfileRepository profileRepository, ISubscriptionExternalService subscriptionExternalService) : IProfileQueryService
 {

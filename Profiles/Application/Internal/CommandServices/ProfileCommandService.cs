@@ -1,9 +1,9 @@
-using AlquilaFacilPlatform.Profiles.Application.Internal.OutboundServices;
 using AlquilaFacilPlatform.Profiles.Domain.Model.Commands;
 using AlquilaFacilPlatform.Profiles.Domain.Repositories;
 using AlquilaFacilPlatform.Profiles.Domain.Services;
 using AlquilaFacilPlatform.Shared.Domain.Repositories;
-using Profiles.Application.Internal.OutboundServices;
+using Profiles.Application.External;
+using Profiles.Application.External.OutboundServices;
 using Profiles.Domain.Model.Aggregates;
 
 namespace Profiles.Application.Internal.CommandServices;
@@ -13,7 +13,7 @@ public class ProfileCommandService(IUserExternalService userExternalService,IPro
     public async Task<Profile?> Handle(CreateProfileCommand command)
     {
         var profile = new Profile(command);
-        var userExists = userExternalService.UserExistsById(command.UserId);
+        var userExists = await userExternalService.UserExistsById(command.UserId);
         if (!userExists)
         {
             throw new Exception("User does not exist");

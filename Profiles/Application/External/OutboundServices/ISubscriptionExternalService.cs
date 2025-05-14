@@ -1,4 +1,4 @@
-namespace AlquilaFacilPlatform.Profiles.Application.Internal.OutboundServices;
+namespace Profiles.Application.External.OutboundServices;
 
 public interface ISubscriptionExternalService
 {
