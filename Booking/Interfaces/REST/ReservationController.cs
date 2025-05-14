@@ -24,7 +24,7 @@ public class ReservationController(IReservationCommandService reservationCommand
             return StatusCode(201, reservationResource);
         }catch (Exception ex)
         {
-            return BadRequest(ex.Message);
+            return BadRequest(new { message = ex.Message });
         }
     }
 
@@ -38,7 +38,7 @@ public class ReservationController(IReservationCommandService reservationCommand
             return Ok(reservationResource);
         }catch(Exception ex)
         {
-            return BadRequest(ex.Message);
+            return BadRequest(new { message = ex.Message });
         }
     }
 
@@ -52,7 +52,7 @@ public class ReservationController(IReservationCommandService reservationCommand
             return StatusCode(200, "Reservation deleted");
         }catch(Exception ex)
         {
-            return BadRequest(ex.Message);
+            return BadRequest(new { message = ex.Message });
         }
     }
     
@@ -67,7 +67,7 @@ public class ReservationController(IReservationCommandService reservationCommand
             return Ok(reservationResource);
         }catch(Exception ex)
         {
-            return BadRequest(ex.Message);
+            return BadRequest(new { message = ex.Message });
         }
     }
 
@@ -81,7 +81,7 @@ public class ReservationController(IReservationCommandService reservationCommand
             var reservations = await reservationQueryService.GetReservationsByOwnerIdAsync(query);
             if (reservations == null || !reservations.Any())
             {
-                return NotFound("Reservations not found for the given user ID.");
+                return NotFound(new { message = "No reservations found for this user." });
             }
             
             
@@ -108,7 +108,7 @@ public class ReservationController(IReservationCommandService reservationCommand
             return Ok(reservationDetailsResource);
         }catch(Exception ex)
         {
-            return BadRequest(ex.Message);
+            return BadRequest(new { message = ex.Message });
         }
     }
 
@@ -126,7 +126,7 @@ public class ReservationController(IReservationCommandService reservationCommand
             return Ok(reservationResource);
         }catch(Exception ex)
         {
-            return BadRequest(ex.Message);
+            return BadRequest(new { message = ex.Message });
         }
     }
 
@@ -140,7 +140,7 @@ public class ReservationController(IReservationCommandService reservationCommand
             return Ok(reservationResource);
         }catch(Exception ex)
         {
-            return BadRequest(ex.Message);
+            return BadRequest(new { message = ex.Message });
         }
     }
 }
