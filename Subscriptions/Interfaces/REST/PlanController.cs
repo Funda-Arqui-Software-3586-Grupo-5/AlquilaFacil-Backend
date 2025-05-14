@@ -13,10 +13,15 @@ public class PlanController(IPlanQueryService planQueryService) : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllPlans()
     {
-        var getAllPlansQuery = new GetAllPlansQuery();
-        var plans = await planQueryService.Handle(getAllPlansQuery);
-        var resources = plans.Select(PlanResourceFromEntityAssembler.ToResourceFromEntity);
-        return Ok(resources);
+        try {
+            var getAllPlansQuery = new GetAllPlansQuery();
+            var plans = await planQueryService.Handle(getAllPlansQuery);
+            var resources = plans.Select(PlanResourceFromEntityAssembler.ToResourceFromEntity);
+            return Ok(resources);
+        }catch(Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
 }
