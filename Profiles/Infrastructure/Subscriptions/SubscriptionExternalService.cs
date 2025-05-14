@@ -6,7 +6,7 @@ public class SubscriptionExternalService(HttpClient client) : ISubscriptionExter
 {
     public async Task<bool> IsUserSubscribeAsync(int userId)
     {
-        var url = "http://subscription-api:8016/api/v1/subscriptions/" + userId + "/subscribed";
+        var url = "http://subscriptions-api:8016/api/v1/subscriptions/" + userId + "/subscribed";
         var response = await client.GetAsync(url);
         if (!response.IsSuccessStatusCode)
         {

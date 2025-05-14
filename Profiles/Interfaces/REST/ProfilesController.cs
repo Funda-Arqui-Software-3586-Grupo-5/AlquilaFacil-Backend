@@ -19,53 +19,77 @@ public class ProfilesController(
     [HttpPost]
     public async Task<IActionResult> CreateProfile([FromBody] CreateProfileResource createProfileResource)
     {
-        var createProfileCommand = CreateProfileCommandFromResourceAssembler.ToCommandFromResource(createProfileResource);
-        var profile = await profileCommandService.Handle(createProfileCommand);
-        if (profile is null) return BadRequest();
-        var resource = ProfileResourceFromEntityAssembler.ToResourceFromEntity(profile);
-        return CreatedAtAction(nameof(GetProfileById), new {profileId = resource.Id}, resource);
+        try {
+            var createProfileCommand = CreateProfileCommandFromResourceAssembler.ToCommandFromResource(createProfileResource);
+            var profile = await profileCommandService.Handle(createProfileCommand);
+            if (profile is null) return BadRequest();
+            var resource = ProfileResourceFromEntityAssembler.ToResourceFromEntity(profile);
+            return CreatedAtAction(nameof(GetProfileById), new {profileId = resource.Id}, resource);
+        }catch(Exception e) {
+            return BadRequest(new {message = e.Message});
+        }
     }
     
     [HttpGet]
     public async Task<IActionResult> GetAllProfiles()
     {
-        var getAllProfilesQuery = new GetAllProfilesQuery();
-        var profiles = await profileQueryService.Handle(getAllProfilesQuery);
-        var resources = profiles.Select(ProfileResourceFromEntityAssembler.ToResourceFromEntity);
-        return Ok(resources);
+        try {
+            var getAllProfilesQuery = new GetAllProfilesQuery();
+            var profiles = await profileQueryService.Handle(getAllProfilesQuery);
+            var resources = profiles.Select(ProfileResourceFromEntityAssembler.ToResourceFromEntity);
+            return Ok(resources);
+        }catch(Exception e) {
+            return BadRequest(new {message = e.Message});
+        }
     }
     
     [HttpGet("{profileId}")]
     public async Task<IActionResult> GetProfileById(int profileId)
     {
-        var profile = await profileQueryService.Handle(new GetProfileByIdQuery(profileId));
-        if (profile == null) return NotFound();
-        var profileResource = ProfileResourceFromEntityAssembler.ToResourceFromEntity(profile);
-        return Ok(profileResource);
+        try {
+            var profile = await profileQueryService.Handle(new GetProfileByIdQuery(profileId));
+            if (profile == null) return NotFound();
+            var profileResource = ProfileResourceFromEntityAssembler.ToResourceFromEntity(profile);
+            return Ok(profileResource);
+        }catch(Exception e) {
+            return BadRequest(new {message = e.Message});
+        }
     }
     
     [HttpGet("user/{userId}")]
     public async Task<IActionResult> GetProfileByUserId(int userId)
     {
-        var profile = await profileQueryService.Handle(new GetProfileByUserIdQuery(userId));
-        if (profile == null) return NotFound();
-        var profileResource = ProfileResourceFromEntityAssembler.ToResourceFromEntity(profile);
-        return Ok(profileResource);
+        try {
+            var profile = await profileQueryService.Handle(new GetProfileByUserIdQuery(userId));
+            if (profile == null) return NotFound();
+            var profileResource = ProfileResourceFromEntityAssembler.ToResourceFromEntity(profile);
+            return Ok(profileResource);
+        }catch(Exception e) {
+            return BadRequest(new {message = e.Message});
+        }
     }
     
     [HttpGet("is-user-subscribed/{userId}")]
     public async Task<IActionResult> IsUserSubscribed(int userId)
     {
-        var query = new IsUserSubscribeQuery(userId);
-        var user = await profileQueryService.Handle(query);
-        return Ok(user);
+        try {
+            var query = new IsUserSubscribeQuery(userId);
+            var user = await profileQueryService.Handle(query);
+            return Ok(user);
+        }catch(Exception e) {
+            return BadRequest(new {message = e.Message});
+        }
     }
 
     [HttpPut("{id}")]
     public async Task<ActionResult> UpdateFarm(int id,[FromBody] UpdateProfileResource updateProfileResource)
     {
-        var updateProfileCommand = UpdateProfileCommandFromResourceAssembler.ToCommandFromResource(updateProfileResource,id);
-        var result = await profileCommandService.Handle(updateProfileCommand);
-        return Ok(ProfileResourceFromEntityAssembler.ToResourceFromEntity(result));
+        try {
+            var updateProfileCommand = UpdateProfileCommandFromResourceAssembler.ToCommandFromResource(updateProfileResource,id);
+            var result = await profileCommandService.Handle(updateProfileCommand);
+            return Ok(ProfileResourceFromEntityAssembler.ToResourceFromEntity(result));
+        }catch(Exception e) {
+            return BadRequest(new {message = e.Message});
+        }
     }
 }
