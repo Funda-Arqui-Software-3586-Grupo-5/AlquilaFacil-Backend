@@ -6,21 +6,14 @@ using Booking.Interfaces.ACL.DTOs;
 
 namespace Booking.Application.External.OutboundServices;
 
-public class LocalExternalService : ILocalExternalService
+public class LocalExternalService(ILocalsContextFacade _localsContextFacade) : ILocalExternalService
 {
-    private readonly ILocalsContextFacade _localsContextFacade;
+    public async Task<bool> LocalReservationExists(int reservationId) =>
+        await _localsContextFacade.LocalExists(reservationId);
 
-    public LocalExternalService(ILocalsContextFacade localsContextFacade)
-    {
-        _localsContextFacade = localsContextFacade;
-    }
+    public async Task<IEnumerable<LocalDto>> GetLocalsByUserId(int userId) =>
+        await _localsContextFacade.GetLocalsByUserId(userId);
 
-    public Task<bool> LocalReservationExists(int reservationId) =>
-        _localsContextFacade.LocalExists(reservationId);
-
-    public Task<IEnumerable<LocalDto>> GetLocalsByUserId(int userId) =>
-        _localsContextFacade.GetLocalsByUserId(userId);
-
-    public Task<bool> IsLocalOwner(int userId, int localId) =>
-        _localsContextFacade.IsLocalOwner(userId, localId);
+    public async Task<bool> IsLocalOwner(int userId, int localId) =>
+        await _localsContextFacade.IsLocalOwner(userId, localId);
 }

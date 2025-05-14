@@ -102,22 +102,11 @@ builder.Services.AddScoped<ILocalExternalService, LocalExternalService>();
 builder.Services.AddScoped<ISubscriptionExternalService, SubscriptionExternalService>();
 builder.Services.AddScoped<IUserReservationExternalService, UserReservationExternalService>();
 
-builder.Services.AddHttpClient();
+builder.Services.AddScoped<IIamContextFacade, IamContextFacade>();
+builder.Services.AddScoped<ILocalsContextFacade, LocalsContextFacade>();
+builder.Services.AddScoped<ISubscriptionContextFacade, SubscriptionContextFacade>();
 
-builder.Services.AddHttpClient<ILocalsContextFacade, LocalsContextFacade>(client =>
-{
-    client.BaseAddress = new Uri(builder.Configuration["ExternalServices:LocalManagement"]!);
-});
-builder.Services.AddHttpClient<ISubscriptionContextFacade, SubscriptionContextFacade>(client =>
-{
-    var baseUrl = builder.Configuration["ExternalServices:Subscriptions"];
-    client.BaseAddress = new Uri(baseUrl!);
-});
-builder.Services.AddHttpClient<IIamContextFacade, IamContextFacade>(client =>
-{
-    var baseUrl = builder.Configuration["ExternalServices:IAM"];
-    client.BaseAddress = new Uri(baseUrl!);
-});
+builder.Services.AddHttpClient();
 
 builder.WebHost.ConfigureKestrel(options =>
 {

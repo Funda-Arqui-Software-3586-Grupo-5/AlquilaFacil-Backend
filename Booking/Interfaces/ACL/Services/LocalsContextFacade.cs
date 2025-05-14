@@ -14,17 +14,26 @@ public class LocalsContextFacade : ILocalsContextFacade
 
     public async Task<bool> LocalExists(int reservationId)
     {
-        var response = await _httpClient.GetAsync($"/api/v1/locals/{reservationId}");
-        response.EnsureSuccessStatusCode();
-        return bool.Parse(await response.Content.ReadAsStringAsync());
+        var endpoint = $"http://local-api:8013/api/v1/locals/{reservationId}";
+        var response = await _httpClient.GetAsync(endpoint);
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception($"Error checking local existence: {response.StatusCode}");
+        }
+       
+        var content = await response.Content.ReadAsStringAsync();
+        return bool.Parse(content);
     }
 
     public async Task<IEnumerable<LocalDto>> GetLocalsByUserId(int userId)
     {
-        var response = await _httpClient.GetAsync($"/api/v1/locals/{userId}");
-        response.EnsureSuccessStatusCode();
+        var endpoint = $"http://local-api:8013/api/v1/locals/get-user-locals/{userId}";
+        var response = await _httpClient.GetAsync(endpoint);
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception($"Error fetching locals: {response.StatusCode}");
+        }
         var content = await response.Content.ReadAsStringAsync();
-
         return JsonSerializer.Deserialize<IEnumerable<LocalDto>>(content, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
@@ -33,8 +42,22 @@ public class LocalsContextFacade : ILocalsContextFacade
 
     public async Task<bool> IsLocalOwner(int userId, int localId)
     {
-        var response = await _httpClient.GetAsync($"/api/v1/locals/owner/{localId}");
-        response.EnsureSuccessStatusCode();
-        return bool.Parse(await response.Content.ReadAsStringAsync());
+        var endpoint = $"http://local-api:8013/api/v1/locals/get-user-locals/{userId}";
+        var response = await _httpClient.GetAsync(endpoint);
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception($"Error checking local ownership: {response.StatusCode}");
+        }
+
+        var content = await response.Content.ReadAsStringAsync();
+        var locals = JsonSerializer.Deserialize<IEnumerable<LocalDto>>(content, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        })!;
+        if (locals == null || !locals.Any())
+        {
+            return false;
+        }
+        return true;
     }
 }

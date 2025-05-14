@@ -21,17 +21,15 @@ public class ReservationQueryService(IReservationRepository reservationRepositor
 
     public async Task<IEnumerable<Reservation>> GetReservationsByOwnerIdAsync(GetReservationsByOwnerIdQuery query)
     {
-        /*
-        var locals = await reservationLocalExternalService.GetLocalsByUserId(query.OwnerId);
+        
+        var locals = await localExternalService.GetLocalsByUserId(query.OwnerId);
         if (locals == null)
         {
             throw new Exception("This user does not have any local registered.");
         }
         var localIds = locals.Select(local => local.Id);
         return await reservationRepository.GetReservationsByLocalIdAsync(localIds.ToList());
-        */
-
-        return new List<Reservation>();
+        
     }
 
     public async Task<IEnumerable<Reservation>> GetReservationByEndDateAsync(GetReservationByEndDate query)

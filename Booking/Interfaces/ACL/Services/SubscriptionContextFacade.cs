@@ -1,4 +1,5 @@
 using Booking.Interfaces.ACL.DTOs;
+using System.Text.Json;
 
 namespace Booking.Interfaces.ACL.Services;
 
@@ -6,9 +7,21 @@ public class SubscriptionContextFacade(HttpClient httpClient) : ISubscriptionCon
 {
     public async Task<IEnumerable<SubscriptionDto>> GetSubscriptionsByUsersId(List<int> usersId)
     {
-        // suponiendo que el controller no tiene aún un endpoint por userId, este GET trae todos
-        var subscriptions = await httpClient.GetFromJsonAsync<List<SubscriptionDto>>("/api/v1/subscriptions");
+        var endpoint = $"http://subscription-api:8016/api/v1/subscriptions/subscriptions/by-users";
+        // put the query param as array with usersId=
+        var query = string.Join("&", usersId.Select(id => $"usersId={id}"));
+        endpoint += $"?{query}";
+        var response = await httpClient.GetAsync(endpoint);
 
-        return subscriptions?.Where(s => usersId.Contains(s.UserId)) ?? Enumerable.Empty<SubscriptionDto>();
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception($"Error fetching subscriptions: {response.StatusCode}");
+        }
+
+        var content = await response.Content.ReadAsStringAsync();
+        return JsonSerializer.Deserialize<IEnumerable<SubscriptionDto>>(content, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        })!;
     }
 }
