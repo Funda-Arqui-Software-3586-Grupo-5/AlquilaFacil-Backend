@@ -23,6 +23,8 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.Entity<Reservation>().Property(r => r.Id).IsRequired().ValueGeneratedOnAdd();
         builder.Entity<Reservation>().Property(r => r.StartDate).IsRequired();
         builder.Entity<Reservation>().Property(r => r.EndDate).IsRequired();
+        builder.Entity<Reservation>().Property(r => r.UserId).IsRequired();
+        builder.Entity<Reservation>().Property(r => r.LocalId).IsRequired();
         
         /*
         builder.Entity<User>().HasMany<Reservation>().WithOne().HasForeignKey(r => r.UserId);

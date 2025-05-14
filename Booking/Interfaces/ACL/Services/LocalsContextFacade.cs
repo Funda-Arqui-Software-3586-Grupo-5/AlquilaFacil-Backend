@@ -22,7 +22,11 @@ public class LocalsContextFacade : ILocalsContextFacade
         }
        
         var content = await response.Content.ReadAsStringAsync();
-        return bool.Parse(content);
+        if(string.IsNullOrEmpty(content))
+        {
+            return false;
+        }
+        return true;
     }
 
     public async Task<IEnumerable<LocalDto>> GetLocalsByUserId(int userId)
