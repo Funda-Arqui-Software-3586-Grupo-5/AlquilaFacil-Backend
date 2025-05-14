@@ -1,5 +1,6 @@
 using AlquilaFacilPlatform.Shared.Interfaces.ASP.Configuration.Extensions;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Profiles.Shared.Interfaces.ASP.Configuration.Extensions;
 
 namespace AlquilaFacilPlatform.Shared.Interfaces.ASP.Configuration;
 

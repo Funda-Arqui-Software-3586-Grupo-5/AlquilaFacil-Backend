@@ -1,7 +1,6 @@
 using AlquilaFacilPlatform.Profiles.Domain.Repositories;
 using AlquilaFacilPlatform.Profiles.Domain.Services;
 using AlquilaFacilPlatform.Profiles.Interfaces.ACL;
-using AlquilaFacilPlatform.Profiles.Interfaces.ACL.Services;
 using AlquilaFacilPlatform.Shared.Domain.Repositories;
 using AlquilaFacilPlatform.Shared.Interfaces.ASP.Configuration;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +10,8 @@ using Profiles.Application.Internal.CommandServices;
 using Profiles.Application.Internal.QueryServices;
 using Profiles.Infrastructure.IAM;
 using Profiles.Infrastructure.Persistence.EFC.Repositories;
+using Profiles.Infrastructure.Subscriptions;
+using Profiles.Interfaces.ACL.Services;
 using Profiles.Shared.Infrastructure.Persistence.EFC.Configuration;
 using Profiles.Shared.Infrastructure.Persistence.EFC.Repositories;
 

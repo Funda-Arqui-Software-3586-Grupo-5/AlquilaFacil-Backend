@@ -1,7 +1,8 @@
 using AlquilaFacilPlatform.Profiles.Domain.Model.Commands;
 using AlquilaFacilPlatform.Profiles.Domain.Services;
+using AlquilaFacilPlatform.Profiles.Interfaces.ACL;
 
-namespace AlquilaFacilPlatform.Profiles.Interfaces.ACL.Services;
+namespace Profiles.Interfaces.ACL.Services;
 
 public class ProfilesContextFacade(IProfileCommandService profileCommandService) : IProfilesContextFacade
 {

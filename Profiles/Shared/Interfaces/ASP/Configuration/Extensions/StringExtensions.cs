@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace AlquilaFacilPlatform.Shared.Interfaces.ASP.Configuration.Extensions;
+namespace Profiles.Shared.Interfaces.ASP.Configuration.Extensions;
 
 public static partial class StringExtensions
 {
@@ -15,7 +15,9 @@ public static partial class StringExtensions
             .Trim()
             .ToLower();
     }
-
-    [GeneratedRegex("(?<!^)([A-Z][a-z]|(?<=[a-z])[A-Z])", RegexOptions.Compiled)]
-    private static partial Regex KebabCaseRegex();
+    
+    private static Regex KebabCaseRegex()
+    {
+        return new Regex(@"([a-z])([A-Z])", RegexOptions.Compiled);
+    }
 }
