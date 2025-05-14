@@ -18,13 +18,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="...dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
+      <Folder Include="Application\Internal" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Application\Internal" />
+      <Content Include="..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
     </ItemGroup>
 
 </Project>

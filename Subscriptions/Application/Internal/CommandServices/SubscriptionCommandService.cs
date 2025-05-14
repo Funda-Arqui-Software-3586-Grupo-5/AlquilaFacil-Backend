@@ -1,6 +1,8 @@
 //using Subscriptions.IAM.Domain.Model.Aggregates;
+
+using Subscriptions.Application.External;
+using Subscriptions.Application.External.OutBoundServices;
 using Subscriptions.Shared.Domain.Repositories;
-using Subscriptions.Application.Internal.OutBoundServices;
 using Subscriptions.Domain.Model.Aggregates;
 using Subscriptions.Domain.Model.Commands;
 using Subscriptions.Domain.Repositories;
@@ -22,8 +24,8 @@ public class SubscriptionCommandService(ISubscriptionRepository subscriptionRepo
         {
             throw new Exception("Plan not found");
         }
-
-        if (!externalUserWithSubscriptionService.UserExists(command.UserId))
+        var isUserExists = await externalUserWithSubscriptionService.UserExists(command.UserId);
+        if (!isUserExists)
         {
             throw new Exception("User not found");
         }

@@ -20,12 +20,7 @@ public class SubscriptionContextFacade(ISubscriptionQueryServices subscriptionQu
     {
         var query = new GetSubscriptionByUserIdQuery(userId);
         var subscription = await subscriptionQueryServices.Handle(query);
-        if (subscription == null)
-        {
-            throw new Exception("Subscription not found");
-        }
-
-        return subscription.SubscriptionStatusId == (int)ESubscriptionStatus.Active;
+        return subscription != null;
 
     }
 }

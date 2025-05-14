@@ -4,12 +4,14 @@ using Subscriptions.Domain.Services;
 using Subscriptions.Interfaces.REST.Resources;
 using Subscriptions.Interfaces.REST.Transform;
 using Microsoft.AspNetCore.Mvc;
+using Subscriptions.Interfaces.ACL;
 
 namespace Subscriptions.Interfaces.REST;
 
 [ApiController]
 [Route("api/v1/[controller]")]
 public class SubscriptionsController(
+    ISubscriptionContextFacade subscriptionContextFacade,
     ISubscriptionCommandService subscriptionCommandService,
     ISubscriptionQueryServices subscriptionQueryServices)
     : ControllerBase
@@ -35,6 +37,24 @@ public class SubscriptionsController(
         var resources = subscriptions.Select(SubscriptionResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(resources);
     }
+
+    [HttpGet("{userId:int}/subscribed")]
+
+    public async Task<IActionResult> IsUserSubscribed(int userId)
+    {
+        var response = await subscriptionContextFacade.IsUserSubscribed(userId);
+        return Ok(response);
+    }
+    
+    [HttpGet("subscriptions/by-users")]
+    public async Task<IActionResult> GetSubscriptionsByUsers([FromQuery] List<int> usersId)
+    {
+        var subscriptions = await subscriptionContextFacade.GetSubscriptionByUsersId(usersId);
+        var resources = subscriptions.Select(SubscriptionResourceFromEntityAssembler.ToResourceFromEntity);
+        return Ok(resources);
+    }
+    
+    
     
     [HttpGet("{subscriptionId}")]
     public async Task<IActionResult> GetSubscriptionById([FromRoute] int subscriptionId)

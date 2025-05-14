@@ -11,8 +11,10 @@ using Subscriptions.Shared.Infrastructure.Persistence.EFC.Repositories;
 using Subscriptions.Shared.Interfaces.ASP.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using Subscriptions.Application.Internal.OutBoundServices;
+using Subscriptions.Application.External;
+using Subscriptions.Application.External.OutBoundServices;
 using Subscriptions.Domain.Model.Commands;
+using Subscriptions.Infrastructure.IAM;
 using Subscriptions.Interfaces.ACL.Service;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -97,6 +99,8 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
 builder.Services.AddScoped<ISubscriptionCommandService, SubscriptionCommandService>();
 builder.Services.AddScoped<ISubscriptionQueryServices, SubscriptionQueryService>();
+builder.Services.AddScoped<ISubscriptionStatusRepository, SubscriptionStatusRepository>();
+builder.Services.AddScoped<ISubscriptionStatusCommandService, SubscriptionStatusCommandService>();
 builder.Services.AddScoped<ISubscriptionContextFacade, SubscriptionContextFacade>();
 builder.Services.AddScoped<IExternalUserWithSubscriptionService, ExternalUserWithSubscriptionService>();
 
@@ -110,7 +114,7 @@ builder.Services.AddHttpClient();
 
 builder.WebHost.ConfigureKestrel(options =>
 {
-    options.ListenAnyIP(8100); // ← importante
+    options.ListenAnyIP(8016); // ← importante
 });
 
 var app = builder.Build();
