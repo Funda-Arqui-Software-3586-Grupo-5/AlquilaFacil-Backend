@@ -114,9 +114,9 @@ builder.Services.AddScoped<IReportRepository, ReportRepository>();
 
 builder.Services.AddHttpClient();
 
-builder.Services.AddHttpClient<ILocalsContextFacade, LocalsContextFacade>(client =>
+builder.WebHost.ConfigureKestrel(options =>
 {
-    client.BaseAddress = new Uri(builder.Configuration["BaseUrl"]);
+    options.ListenAnyIP(8013); 
 });
 
 

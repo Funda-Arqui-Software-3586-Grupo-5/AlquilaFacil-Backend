@@ -7,8 +7,7 @@ public class UserCommentExternalService(HttpClient httpClient, IConfiguration co
 
     public async Task<bool> UserExists(int userId)
     {
-        var baseUrl = configuration["BaseUrl"];
-        var endpoint = $"{baseUrl}/api/v1/auth/{userId}"; //Provitional endpoint
+        var endpoint = $"http://localhost:8012/api/v1/users/{userId}/exists";
         var response = await httpClient.GetAsync(endpoint);
         return response.IsSuccessStatusCode;
 
