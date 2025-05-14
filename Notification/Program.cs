@@ -1,9 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Notification.Application.External;
 using Notification.Application.Internal.CommandServices;
 using Notification.Application.Internal.QueryServices;
 using Notification.Domain.Repositories;
 using Notification.Domain.Services;
+using Notification.Infrastructure.IAM;
 using Notification.Infrastructure.Persistence.EFC.Repositories;
 using Notification.Shared.Domain.Repositories;
 using Notification.Shared.Infrastructure.Persistence.EFC.Configuration;
@@ -79,6 +81,8 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+builder.Services.AddScoped<IExternalUserService, ExternalUserService>();
+
 // Shared Bounded Context Injection Configuration
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -86,6 +90,13 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<INotificationCommandService, NotificationCommandService>();
 builder.Services.AddScoped<INotificationQueryService, NotificationQueryService>();
+
+builder.Services.AddHttpClient();
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(8014);
+});
 
 //builder.Services.AddHttpClient();
 

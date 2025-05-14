@@ -1,0 +1,21 @@
+# This is a generated file. Not intended for manual editing.
+services:
+  notification-api:
+    build:
+      context: "/Users/lordmathi2741/Documents/Cursos/Fundamentos-Arqui-Software/AlquilaFacil-Backend"
+      dockerfile: "Notification/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net9.0/Notification.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "notification:dev"
+    ports: []
+    volumes:
+    - "/Users/lordmathi2741/Documents/Cursos/Fundamentos-Arqui-Software/AlquilaFacil-Backend/Notification:/app:rw"
+    - "/Users/lordmathi2741/Documents/Cursos/Fundamentos-Arqui-Software/AlquilaFacil-Backend:/src:rw"
+    - "/Users/lordmathi2741/.nuget/packages:/home/app/.nuget/packages"
+    working_dir: "/app"
