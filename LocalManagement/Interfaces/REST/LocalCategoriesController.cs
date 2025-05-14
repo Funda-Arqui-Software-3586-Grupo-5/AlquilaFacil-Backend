@@ -15,9 +15,13 @@ public class LocalCategoriesController(ILocalCategoryQueryService localCategoryQ
     [HttpGet]
     public async Task<IActionResult> GetAllLocalCategories()
     {
-        var getAllLocalCategoriesQuery = new GetAllLocalCategoriesQuery();
-        var localCategories = await localCategoryQueryService.Handle(getAllLocalCategoriesQuery);
-        var localCategoryResources = localCategories.Select(LocalCategoryResourceFromEntityAssembler.ToResourceFromEntity);
-        return Ok(localCategoryResources);
+        try {
+            var getAllLocalCategoriesQuery = new GetAllLocalCategoriesQuery();
+            var localCategories = await localCategoryQueryService.Handle(getAllLocalCategoriesQuery);
+            var localCategoryResources = localCategories.Select(LocalCategoryResourceFromEntityAssembler.ToResourceFromEntity);
+            return Ok(localCategoryResources);
+        }catch(Exception ex) {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 }

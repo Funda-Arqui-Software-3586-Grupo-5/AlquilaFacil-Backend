@@ -1,3 +1,4 @@
+using LocalManagement.Application.External;
 using LocalManagement.Application.External.OutboundServices;
 using LocalManagement.Application.Internal.CommandServices;
 using LocalManagement.Application.Internal.QueryServices;
@@ -103,14 +104,14 @@ builder.Services.AddScoped<ICommentCommandService, CommentCommandService>();
 builder.Services.AddScoped<ICommentQueryService, CommentQueryService>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 
-builder.Services.AddScoped<IUserCommentExternalService, UserCommentExternalService>();
-
-
-
 
 builder.Services.AddScoped<IReportCommandService, ReportCommandService>();
 builder.Services.AddScoped<IReportQueryService, ReportQueryService>();
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
+
+builder.Services.AddScoped<IUserCommentExternalService, UserCommentExternalService>();
+builder.Services.AddScoped<IUserExternalService, UserExternalService>();
+builder.Services.AddScoped<IIamContextFacade, IamContextFacade>();
 
 builder.Services.AddHttpClient();
 
