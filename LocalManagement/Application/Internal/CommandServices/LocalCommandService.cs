@@ -1,3 +1,4 @@
+using LocalManagement.Application.External.OutboundServices;
 using LocalManagement.Domain.Model.Commands;
 using LocalManagement.Domain.Repositories;
 using LocalManagement.Domain.Services;
@@ -6,12 +7,17 @@ using Local = LocalManagement.Domain.Model.Aggregates.Local;
 
 namespace LocalManagement.Application.Internal.CommandServices;
 
-public class LocalCommandService (ILocalRepository localRepository, ILocalCategoryRepository localCategoryRepository, IUnitOfWork unitOfWork) : ILocalCommandService
+public class LocalCommandService (IUserCommentExternalService userCommentExternalService, ILocalRepository localRepository, ILocalCategoryRepository localCategoryRepository, IUnitOfWork unitOfWork) : ILocalCommandService
 {
     
     public async Task<Local?> Handle(CreateLocalCommand command)
     {
         var localCategory = await localCategoryRepository.FindByIdAsync(command.LocalCategoryId);
+        var userExists = await userCommentExternalService.UserExists(command.UserId);
+        if (!userExists)
+        {
+            throw new Exception("User does not exist");
+        }
         if (localCategory == null)
         {
             throw new Exception("Local category not found");
